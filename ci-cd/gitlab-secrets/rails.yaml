@@ -1,0 +1,6 @@
+provider: AWS
+aws_access_key_id:  
+aws_secret_access_key: 
+region: nl-ams
+host: "s3.nl-ams.scw.cloud"
+# endpoint: "https://minio.example.com:9000"

@@ -1,0 +1,7 @@
+s3:
+  bucket: gitlab-registry-storage
+  accesskey: 
+  secretkey: 
+  region: nl-ams
+  regionendpoint: "https://s3.nl-ams.scw.cloud"
+  v4auth: true

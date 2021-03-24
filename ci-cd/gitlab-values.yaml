@@ -1,0 +1,320 @@
+---
+postgresql:
+  install: false
+
+global:
+  #busybox:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/busybox
+      #tag: latest
+  #kubectl:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/kubectl
+      #tag: 1.13.12
+      #pullSecrets: []
+  #certificates:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/alpine-certificates
+      #tag: 20191127-r2
+    #customCAs: []
+  #upgradeCheck:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/busybox
+      #tag:
+  registry:
+    bucket: gitlab-registry-storage
+  psql:
+    host: postgresql-ha-pgpool.postgresql-ha
+    port: 5432
+    username: gitlab
+    database: gitlab
+    password: 
+      secret: gitlab-postgresql-password
+      key: postgres-password
+  minio:
+    enabled: false
+  redis:
+    cluster:
+      enabled: true
+    #host: master
+    #serviceName: redis
+    #port: 26379
+    #sentinels:
+    #  - host: redis-headless.redis
+    #    port: 26379
+    #password:
+    #  enabled: false
+    #  secret: gitlab-redis-password
+    #  key: redis-password
+  shell:
+    port: 2222
+  ingress:
+    enabled: true
+    tls:
+      enabled: false
+    configureCertmanager: true
+    class: nginx
+    #annotations:
+    #  traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+  hosts:
+    domain: fqdn.lan
+    gitlab:
+      name: gitlab.fqdn.lan
+    #registry:
+    #  name: registry.g2g.lan
+    #ssh: sshgit.g2g.lan
+
+  # smtp:
+  #   enabled: true
+  #   address: smtp.geohub.space
+  #   port: 465
+  #   user_name: hello@geohub.space
+  #   password:
+  #     secret: smtp-password
+  #     key: password
+  #   authentication: login
+  #   starttls_auto: true
+  #   tls: true
+  #   openssl_verify_mode: none
+  # email:
+  #   from: hello@geohub.space
+  #   display_name: GitLab
+  #   reply_to: hello@geohub.space
+  #   subject_suffix: " | conf.geohub.space"
+  appConfig:
+    lfs:
+      bucket: gitlab-lfs-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    artifacts:
+      bucket: gitlab-artifacts-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    uploads:
+      bucket: gitlab-uploads-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    packages:
+      bucket: gitlab-packages-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    externalDiffs:
+      enabled: true
+      bucket: gitlab-externaldiffs-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    terraformState:
+      bucket: gitlab-terraform-state
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    pseudonymizer:
+      bucket: gitlab-pseudonymizer-storage
+      connection:
+        secret: gitlab-rails-storage
+        key: connection
+    backups:
+      bucket: gitlab-backup-storage
+      tmpBucket: gitlab-tmp-backup-storage
+    # omniauth:
+    #   enabled: true
+    #   autoSignInWithProvider: 'openid_connect'
+    #   syncProfileAttributes: ['email']
+    #   allowSingleSignOn: true
+    #   blockAutoCreatedUsers: false
+    #   autoLinkLdapUser: false
+    #   autoLinkSamlUser: false
+    #   providers:
+    #     - secret: gitlab-provider-keycloak
+    
+
+gitlab:
+  gitaly:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitaly
+      #tag: master
+      #pullSecrets:
+      #  - name: my-secret-name
+    resources:
+      limits:
+        cpu: 1
+        memory: 2G
+      requests:
+        cpu: 250m
+        memory: 2G
+
+  gitlab-exporter:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter
+      #tag: latest
+      #pullSecrets:
+      #  - name: my-secret-name
+    resources:
+      limits:
+        cpu: 1
+        memory: 1G
+      requests:
+        cpu: 500m
+        memory: 1G
+
+  gitlab-pages:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter
+      #tag: latest
+      #pullSecrets:
+      #  - name: my-secret-name
+    resources:
+      limits:
+        cpu: 1
+        memory: 1G
+      requests:
+        cpu: 500m
+        memory: 1G
+
+  gitlab-shell:
+    enabled: true
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-shell
+      #tag: master
+      #pullSecrets: 
+      #  - name: my-secret-name
+    replicaCount: 2
+    service:
+      type: NodePort
+      #loadBalancerIP: 10.199.102.45
+      #loadBalancerSourceRanges: 
+      #  - 10.199.254.0/24
+      #  - 10.199.101.0/24
+      #  - 10.199.102.0/24
+      #annotations: 
+      #  cloud.google.com/load-balancer-type: Internal
+      externalPort: 30022
+      internalPort: 2222
+    resources:
+      limits:
+        cpu: 2
+        memory: 1G
+      requests:
+        cpu: 1
+        memory: 1G
+
+  sidekiq:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ee
+      #tag: ""
+      #pullSecrets:
+      #  - name: my-secret-name
+    minReplicas: 2
+    maxReplicas: 4
+    concurrency: 4
+    resources:
+      limits:
+        cpu: 2
+        memory: 2G
+      requests:
+        cpu: 500m
+        memory: 2G
+
+  webservice:
+    enabled: true
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce
+      #tag:
+      #pullSecrets:
+      #  - name: my-secret-name
+    #workhorse:
+      #image: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ce
+      #tag:
+    replicaCount: 3
+    resources:
+      limits:
+        cpu: 2
+        memory: 2G
+      requests:
+        cpu: 100m
+        memory: 2G
+
+  migrations:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-task-runner-ce
+      #tag: master
+      #pullSecrets:
+      #  - name: my-secret-name
+    resources:
+      limits:
+        cpu: 1
+        memory: 1G
+      requests:
+        cpu: 1
+        memory: 1G
+
+  task-runner:
+    #image:
+      #repository: harbor.g2g.lan/gitlab/registry.gitlab.com/gitlab-org/build/cng/gitlab-task-runner-ee
+      #tag: master
+      #pullSecrets:
+      #  - name: my-secret-name
+    resources:
+      limits:
+        cpu: 100m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
+    persistence:
+      enabled: true
+      size: 50Gi
+    backups:
+      cron:
+        enabled: true
+        extraArgs: --skip registry
+        schedule: 24 02 * * *
+        persistence:
+          enabled: true
+          size: 50Gi
+          resources:
+            limits:
+              cpu: 2
+              memory: 2Gi
+            requests:
+              cpu: 1
+              memory: 2Gi
+      objectStorage:
+        # GCP
+        #backend: gcs
+        config:
+          key: config
+          # OBS
+          secret: s3cmd-config
+          backend: s3
+          # GCP
+          #secret: storage-config
+          #gcpProject: d-g3s-ground-segment-services
+
+registry:
+  enabled: false
+  #image:
+  #  repository: ""
+  #  tag: ""
+  #storage:
+  #  secret: registry-storage
+  #  key: config
+    # GCP only
+    #extraKey: gcs.json
+
+nginx-ingress:
+  enabled: false
+certmanager:
+  install: false
+gitlab-runner:
+  install: true
+  #image: gitlab/gitlab-runner:alpine-v10.5.0
+  #pullSecrets:
+  #  - name: my-secret-name
+prometheus:
+  install: false
