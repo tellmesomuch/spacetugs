@@ -1,0 +1,68 @@
+replicas: 2
+nodeSelector: 
+  role: admin
+password: srJvUstr5PptWsNs
+resources:
+  limits:
+    cpu: "500m"
+    memory: "1024Mi"
+  requests:
+    cpu: "50m"
+    memory: "128Mi"
+ingress:
+  # If `true`, an Ingress is created
+  enabled: true
+  # The Service port targeted by the Ingress
+  servicePort: http
+  # Ingress annotations
+  annotations: 
+    traefik.ingress.kubernetes.io/affinity: "true"
+  # Additional Ingress labels
+  labels: {}
+   # List of rules for the Ingress
+  rules:
+    -
+      # Ingress host
+      host: keycloak.g3s-service.itcoc.tech
+      # Paths for the host
+      paths:
+        - /
+postgresql:
+  # Disable PostgreSQL dependency
+  enabled: false
+
+extraEnv: |
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: 10.94.0.5
+  - name: DB_PORT
+    value: "5432"
+  - name: DB_DATABASE
+    value: keycloak
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: dns.DNS_PING
+  - name: JGROUPS_DISCOVERY_PROPERTIES
+    value: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
+  - name: CACHE_OWNERS_COUNT
+    value: "2"
+  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+    value: "2"
+
+extraEnvFrom: |
+  - secretRef:
+      name: '{{ include "keycloak.fullname" . }}-db'
+
+secrets:
+  db:
+    stringData:
+      DB_USER: 'postgres'
+      DB_PASSWORD: 'keycloak'
+
+
+prometheus:
+  operator:
+    ## Are you using Prometheus Operator?
+    enabled: true

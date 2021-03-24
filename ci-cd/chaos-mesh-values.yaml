@@ -1,0 +1,15 @@
+dashboard:
+  create: true
+  ingress:
+    ## Set to true to enable ingress record generation
+    enabled: true
+    hosts:
+      - name: dashboard-chaosmesh.g3s-service.itcoc.tech
+        paths: ["/"]
+  persistentVolume:
+    enabled: true
+controllerManager:
+  targetNamespace: chaos-mesh
+webhook:
+  certManager:
+    enabled: false

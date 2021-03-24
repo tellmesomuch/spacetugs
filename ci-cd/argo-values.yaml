@@ -1,0 +1,34 @@
+server:
+  #extraArgs:
+   # - --auth-mode=sso
+  ingress:
+    enabled: true
+
+    ## Annotations to be added to the web ingress.
+    ##
+    # annotations:
+    #   kubernetes.io/ingress.class: nginx
+    #   kubernetes.io/tls-acme: "true"
+
+    ## Hostnames.
+    ## Must be provided if Ingress is enabled.
+    ##
+    hosts:
+      - argo.g3s-service.itcoc.tech
+useDefaultArtifactRepo: true
+controller:
+  containerRuntimeExecutor: pns
+artifactRepository:
+  # archiveLogs will archive the main container logs as an artifact
+  archiveLogs: false
+ # gcs:
+ #   bucket: g3s-argo
+ #   keyFormat: "{{workflow.namespace}}/{{workflow.name}}/"
+ #   serviceAccountKeySecret:
+ #     name: my-gcs-credentials
+ #     key: serviceAccountKey
+#images: 
+#  tag: v2.12.5
+minio:
+  # If set to true then chart installs minio and generate according artifactRepository section in workflow controller config map
+  install: true

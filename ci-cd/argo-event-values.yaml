@@ -1,0 +1,3 @@
+# If set to false, skip installing the CRDs. Requires user to have them installed prior to helm chart installation.
+installCRD: false
+singleNamespace: false

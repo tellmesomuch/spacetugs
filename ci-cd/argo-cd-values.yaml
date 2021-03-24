@@ -1,0 +1,22 @@
+## Dex
+dex:
+  enabled: false
+  name: dex-server
+installCRDs: false
+server:
+  extraArgs: 
+  - --insecure
+  ingress:
+    enabled: true
+    hosts:
+      - argo-cd.g3s-service.itcoc.tech
+  ## ArgoCD config
+  ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+  config:
+    # Enables application status badge feature
+    statusbadge.enabled: "true"
+    # Argo CD's externally facing base URL (optional). Required when configuring SSO
+    url: https://argo-cd.g3s-service.itcoc.tech
+    # Argo CD instance label key
+    application.instanceLabelKey: argocd.argoproj.io/instance
+   
