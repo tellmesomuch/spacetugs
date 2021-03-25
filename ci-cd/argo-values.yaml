@@ -14,7 +14,7 @@ server:
     ## Must be provided if Ingress is enabled.
     ##
     hosts:
-      - argo.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
+      - argo.51-158-129-164.lb.nl-ams.scw.cloud
 useDefaultArtifactRepo: true
 controller:
   containerRuntimeExecutor: pns

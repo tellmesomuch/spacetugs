@@ -24,9 +24,9 @@ global:
   registry:
     bucket: gitlab-registry-storage
   psql:
-    host: postgresql-ha-pgpool.postgresql-ha
-    port: 5432
-    username: gitlab
+    host: 51.158.130.92
+    port: 3359
+    username: spacetugs
     database: gitlab
     password: 
       secret: gitlab-postgresql-password
@@ -57,9 +57,9 @@ global:
     #annotations:
     #  traefik.ingress.kubernetes.io/frontend-entry-points: http,https
   hosts:
-    domain: ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
+    domain: 51-158-129-164.lb.nl-ams.scw.cloud
     gitlab:
-      name: gitlab.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
+      name: gitlab.51-158-129-164.lb.nl-ams.scw.cloud
     #registry:
     #  name: registry.g2g.lan
     #ssh: sshgit.g2g.lan

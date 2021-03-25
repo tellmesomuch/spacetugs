@@ -23,7 +23,7 @@ ingress:
   rules:
     -
       # Ingress host
-      host: keycloak.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
+      host: keycloak.51-158-129-164.lb.nl-ams.scw.cloud
       # Paths for the host
       paths:
         - /
@@ -35,9 +35,9 @@ extraEnv: |
   - name: DB_VENDOR
     value: postgres
   - name: DB_ADDR
-    value: 10.94.0.5
+    value: 51.158.130.92
   - name: DB_PORT
-    value: "5432"
+    value: "3359"
   - name: DB_DATABASE
     value: keycloak
   - name: PROXY_ADDRESS_FORWARDING
@@ -58,8 +58,8 @@ extraEnvFrom: |
 secrets:
   db:
     stringData:
-      DB_USER: 'postgres'
-      DB_PASSWORD: 'keycloak'
+      DB_USER: 'spacetugs'
+      DB_PASSWORD: 'Change0n1nstall!'
 
 
 prometheus:

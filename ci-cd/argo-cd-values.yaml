@@ -2,14 +2,14 @@
 dex:
   enabled: false
   name: dex-server
-installCRDs: false
+installCRDs: true
 server:
   extraArgs: 
   - --insecure
   ingress:
     enabled: true
     hosts:
-      - argo-cd.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
+      - argo-cd.51-158-129-164.lb.nl-ams.scw.cloud
   ## ArgoCD config
   ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
   config:
