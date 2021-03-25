@@ -57,9 +57,9 @@ global:
     #annotations:
     #  traefik.ingress.kubernetes.io/frontend-entry-points: http,https
   hosts:
-    domain: fqdn.lan
+    domain: ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
     gitlab:
-      name: gitlab.fqdn.lan
+      name: gitlab.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
     #registry:
     #  name: registry.g2g.lan
     #ssh: sshgit.g2g.lan

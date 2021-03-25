@@ -9,14 +9,14 @@ server:
   ingress:
     enabled: true
     hosts:
-      - argo-cd.g3s-service.itcoc.tech
+      - argo-cd.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
   ## ArgoCD config
   ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
   config:
     # Enables application status badge feature
     statusbadge.enabled: "true"
     # Argo CD's externally facing base URL (optional). Required when configuring SSO
-    url: https://argo-cd.g3s-service.itcoc.tech
+    url: https://argo-cd.ef4a1999-936c-40fa-9a21-f5791a3db7e5.nodes.k8s.nl-ams.scw.cloud
     # Argo CD instance label key
     application.instanceLabelKey: argocd.argoproj.io/instance
    
