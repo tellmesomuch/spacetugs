@@ -1,0 +1,5 @@
+{
+    "backendUrl":"https://chat.51-158-128-47.lb.nl-ams.scw.cloud/api",
+    "backendWss":"wss://chat.51-158-128-47.lb.nl-ams.scw.cloud/ws",
+    "tokenUrl":"http://localhost:8081/api/v1/token"
+}
