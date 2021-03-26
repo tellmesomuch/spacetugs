@@ -1,12 +1,12 @@
 <template>
     <div slot="content" class="px-2 mt-4 full-heigth">
-      <div class="block -mx-2">
+      <div class="block -mx-2 bar">
         <div
           class="chat-message"
-          v-for="(data, index) in messages"
+          v-for="(data, index) in this.messages"
           :key="index"
         >
-          <span class="text-gray font-small">{{ data.message.username }}</span>
+          <span class="text-gray font-small">{{ data.Message.Username }}</span>
           <div class="flex items-end">
             <div
               class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
@@ -14,13 +14,15 @@
               <div>
                 <span
                   class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
-                  >{{ data.message.message }}</span
+                  >{{ data.Message.Message }}</span
                 >
               </div>
             </div>
           </div>
         </div>
-        <div class="flex m-4 bottom-0 fixed">
+        
+      </div>
+      <div class="flex m-4 bottom-0 fixed">
           <input
             v-model="messagetosend"
             class="shadow appearance-none border rounded mywidth py-2 px-3 w-1/2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -35,7 +37,6 @@
             Send
           </button>
         </div>
-      </div>
     </div>
 </template>
 
@@ -57,9 +58,9 @@ export default {
     },
     send() {
      let payload = {
-        room: this.selectedRoom,
-        mutation: "",
-        message: { username: this.user.user, message: this.messagetosend }
+        Room: this.selectedRoom,
+        Mutation: "",
+        Message: { Username: this.user.user, Message: this.messagetosend }
       };
       this.$socket.send(JSON.stringify(payload));
     },
@@ -69,18 +70,22 @@ export default {
       return this.$store.state.authentication.user;
     },
     messages() {
+      let data = []
       if(this.$store.state.socketstore.messages){
-        return this.$store.state.socketstore.messages.filter((value) => {
-          console.log(value.room)
-          if (value && value.room == this.selectedRoom) {
+        data =  this.$store.state.socketstore.messages.filter((value) => {
+          if (value && value.Room === this.selectedRoom) {
+            console.log(true)
             return true;
           }
+          console.log(false)
           return false;
         });
+        console.log(data)
       }
-      return []
+       return data
     },
     selectedRoom() {
+      console.log(this.$store.state.datastore.selectedRoom)
       return this.$store.state.datastore.selectedRoom;
     },
   },
@@ -88,6 +93,10 @@ export default {
 </script>
 
 <style scoped>
+.bar {
+  overflow: auto;
+  max-height: 80vh;
+}
 .full-heigth {
   height: 80vh;
 }

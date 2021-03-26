@@ -16,8 +16,8 @@ server:
     hosts:
       - argo.51-158-129-164.lb.nl-ams.scw.cloud
 useDefaultArtifactRepo: true
-controller:
-  containerRuntimeExecutor: pns
+#controller:
+#  containerRuntimeExecutor: pns
 artifactRepository:
   # archiveLogs will archive the main container logs as an artifact
   archiveLogs: false

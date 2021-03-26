@@ -1,5 +1,10 @@
-replicas: 1
+replicas: 2
 password: srJvUstr5PptWsNs
+image:
+  repository: rg.nl-ams.scw.cloud/spacetugs/jboss/keycloak
+  tag: latest
+imagePullSecrets:
+- name: regcred
 resources:
   limits:
     cpu: "500m"
@@ -21,7 +26,7 @@ ingress:
   rules:
     -
       # Ingress host
-      host: keycloak.51-158-129-164.lb.nl-ams.scw.cloud
+      host: keycloak.51-158-131-119.lb.nl-ams.scw.cloud
       # Paths for the host
       paths:
         - /

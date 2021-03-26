@@ -1,0 +1,4 @@
+global:
+  imagePullSecrets:
+  - regcred 
+  imageRegistry: rg.nl-ams.scw.cloud/spacetugs

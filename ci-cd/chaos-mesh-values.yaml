@@ -4,7 +4,7 @@ dashboard:
     ## Set to true to enable ingress record generation
     enabled: true
     hosts:
-      - name: dashboard-chaosmesh.51-158-129-164.lb.nl-ams.scw.cloud
+      - name: dashboard-chaosmesh.51-158-131-221.lb.nl-ams.scw.cloud
         paths: ["/"]
   persistentVolume:
     enabled: true

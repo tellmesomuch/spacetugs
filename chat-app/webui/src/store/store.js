@@ -8,6 +8,7 @@ export const datastore = {
     },
     mutations: {
         SET_ROOM(state, room){
+            console.log(room)
             state.selectedRoom = room
         },
         setLocalConfig(state, localConfig) {
@@ -21,6 +22,10 @@ export const datastore = {
          }
     },
     actions: {
+        selectedRoom({commit},{room}){
+            console.log(room)
+            commit("SET_ROOM", room)
+        },
         fetchChartData({ commit }) {
             return new Promise((resolve) => {
                 Vue.prototype.$http.get(this.state.datastore.backendUrl+"/v1/getChartList?filter=&quick=true")

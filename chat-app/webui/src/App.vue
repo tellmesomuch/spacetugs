@@ -10,25 +10,25 @@
             class="list-reset flex flex-row md:flex-col py-0 md:py-3 px-1 md:px-2 text-center md:text-left"
           >
           <li class="mr-3 flex-1"> 
-            <button class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+            <button v-on:click="setRoom('Main Room')" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
              Main Room
             </button>
           </li>
           <li class="mr-3 flex-1" v-for="(data, index) in rooms" :key="index"> 
-            <button v-on="click=setRoom" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
-              {{data.room}}
+            <button v-on:click="setRoom(data)" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+              {{data}}
             </button>
           </li>
           </ul>
           <div class="bottom-0 fixed">
             <input
               v-model="roomcreation"
-              class="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none border rounded w-full py-2 px- text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="roomcreation"
               type="text"
               placeholder="Room Name"
             />
-            <button v-on="click=createRoom" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+            <button v-on:click="createRoom" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
                 Create Room
               </button>
           </div>
@@ -56,32 +56,37 @@ export default {
   components: {
     Navigation
   },
+  data() {
+    return {
+      roomcreation: ""
+    };
+  },
   methods: {
+    setRoom(room){
+      this.$store.dispatch("datastore/selectedRoom",{room})
+    },
     createRoom(){
-      this.$http
-          .post(
-            this.$store.state.datastore.backendUrl + "/createRoom",
-            JSON.stringify({room:this.roomcreation})
-          )
-          .then(response => {
-            console.log(response)
-          })
-          .catch((error) => {
-            this.$toast.open({
-              message: error,
-              type: "error",
-            });
-          });
+      let payload = {
+        Room: this.roomcreation,
+        mutation: "NOTIFICATION",
+        Message:{
+          Username: "",
+          Message: ""
+        }
+      };
+      this.$socket.send(JSON.stringify(payload));
     }
   },
   computed:{
     rooms(){
+      console.log(this.$store.state.socketstore.rooms)
       return this.$store.state.socketstore.rooms;
     },
     loggingIn () {
       if(this.$store.state.authentication.status.loggedIn){
        this.$connect(localConfig.backendWss)
 //       this.$store.dispatch("datastore/fetchChartData",{filter: "", quick: true})
+         this.$store.dispatch("initRooms")
       }
       return this.$store.state.authentication.status.loggedIn;
     },

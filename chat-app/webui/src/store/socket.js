@@ -12,7 +12,8 @@ export const socketstore ={
     },
     messages: [],
     notifications: [],
-    message: {}
+    message: {},
+    rooms: []
   },
   mutations:{
     SOCKET_ONOPEN (state, event)  {
@@ -29,16 +30,19 @@ export const socketstore ={
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message)  {
       state.socket.message = message
-      console.log(message)
       if (!state.messages){
         state.messages = []
       }
-      console.log(state.messages)
       state.messages.push(message)
     },
      // default handler called for all methods
      NOTIFICATION (state, message)  {
-      state.socket.notifications = message
+      state.socket.rooms = message
+      if(!state.rooms){
+        state.rooms=[]
+      }
+      console.log(message)
+      state.rooms.push(message.Room)
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT(state, count) {
@@ -47,14 +51,30 @@ export const socketstore ={
     SOCKET_RECONNECT_ERROR(state) {
       state.socket.reconnectError = true;
     },
+    INITROOMS(state, rooms){
+      state.rooms = rooms;
+    },
+    INITMESSAGES(state, messages){
+      state.messages = messages;
+    }
   },
   actions: {
     sendMessage (context, message) {
       Vue.prototype.$socket.send(message)
     },
+    initRooms({ commit }){
+      return new Promise((resolve) => {
+        Vue.prototype.$http.get(this.state.datastore.backendUrl+"/rooms")
+            .then((response) => {
+                commit("INITROOMS", response.data);
+                resolve();
+            })
+            .catch(() => {
+            });
+    });
+    },
     loadMessages ({ commit }, { messages }){
-      console.log(messages)
-      commit("SOCKET_ONMESSAGE", messages);
+      commit("INITMESSAGES", messages);
     }
   }
 }

@@ -1,0 +1,19 @@
+global:
+#   imageRegistry: myRegistryName
+#   imagePullSecrets:
+#     - myRegistryKeySecretName
+#   storageClass: myStorageClass
+  postgresql:
+    username: customuser
+    password: custompassword
+    database: customdatabase
+    repmgrUsername: repmgruser
+    repmgrPassword: repmgrpassword
+    repmgrDatabase: repmgrdatabase
+#     existingSecret: myExistingSecret
+#   ldap:
+#     bindpw: bindpassword
+#     existingSecret: myExistingSecret
+  pgpool:
+    adminUsername: adminuser
+    adminPassword: adminpassword
